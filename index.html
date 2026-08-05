@@ -96,7 +96,8 @@
 
     <main>
 
-        <section class="banner-sec flex flex-col-reverse lg:flex-row items-center justify-between gap-5 py-5 w-11/12 mx-auto">
+        <section
+            class="banner-sec flex flex-col-reverse lg:flex-row items-center justify-between gap-5 py-5 w-11/12 mx-auto">
 
             <div class="banner-contant flex-1 text-center md:text-left">
 
@@ -132,22 +133,40 @@
 
         <section class="Vocabularies-sec mt-5">
 
-            <h2 class="text-center font-bold text-[36px]"><span class="text-[#00BCFF]">Let's</span> Learn Vocabularies</h2>
+            <h2 class="text-center font-bold text-[36px]"><span class="text-[#00BCFF]">Let's</span> Learn Vocabularies
+            </h2>
 
             <div id="lesson-container" class="flex justify-center gap-5 flex-wrap mt-10">
 
             </div>
 
-            <div id="word-container" class="bg-[#F8F8F8] mt-10 p-15 w-11/12 mx-auto rounded-xl grid grid-cols-1 lg:grid-cols-3 gap-5">
-                
+            <div id="word-container"
+                class="bg-[#F8F8F8] mt-10 p-5 w-11/12 mx-auto rounded-xl grid grid-cols-1 lg:grid-cols-3 gap-5">
+
                 <div class="text-center col-span-full">
-                   <p class="text-[#79716B] text-[13px]">আপনি এখনো কোন Lesson Select করেন ন</p> 
-                   <h2 class="text-[34px] mt-3 font-bangla font-medium">একটি Lesson Select করুন।</h2>
+                    <p class="text-[#79716B] text-[13px]">আপনি এখনো কোন Lesson Select করেন ন</p>
+                    <h2 class="text-[34px] mt-3 font-bangla font-medium">একটি Lesson Select করুন।</h2>
                 </div>
 
             </div>
 
         </section>
+
+        <!-- Open the modal using ID.showModal() method -->
+         
+        <!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
+        <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box">
+                <h3 class="text-lg font-bold">Hello!</h3>
+                <p class="py-4">Press ESC key or click the button below to close</p>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="btn">Close</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
 
     </main>
 
