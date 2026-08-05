@@ -3,13 +3,19 @@ const createElements = (arr) => {
     return htmlElements.join(" ");
 }
 
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
+
 const manageLoading = (status) => {
     if (status === true) {
         document.getElementById("spinner").classList.remove("hidden");
         document.getElementById("word-container").classList.add("hidden");
     }
     else {
-       document.getElementById("word-container").classList.remove("hidden");
+        document.getElementById("word-container").classList.remove("hidden");
         document.getElementById("spinner").classList.add("hidden");
     }
 }
@@ -45,41 +51,21 @@ const loadWordDetail = async (id) => {
     displayWordDetails(details.data);
 }
 
-// {
-// "status": true,
-// "message": "successfully fetched a word details",
-// "data": {
-// "word": "Zephyr",
-// "meaning": "মৃদু বাতাস / হালকা হাওয়া",
-// "pronunciation": "জেফার",
-// "level": 5,
-// "sentence": "A gentle zephyr made the leaves rustle.",
-// "points": 5,
-// "partsOfSpeech": "noun",
-// "synonyms": [
-// "breeze",
-// "wind",
-// "gust"
-// ],
-// "id": 50
-// }
-// }
-
 const displayWordDetails = (word) => {
     const detailsBox = document.getElementById("details-container");
     detailsBox.innerHTML = ` 
     <div>
                         <div>
-                            <h1 class="text-[28px] font-semibold">${word.word}(<i
-                                    class="fa-solid fa-microphone-lines"></i>:${word.pronunciation})</h1>
+                            <h1 class="text-[28px] font-semibold">${word.word ? word.word : "Not Found"}(<i
+                                    class="fa-solid fa-microphone-lines"></i>:${word.pronunciation ? word.pronunciation : "Not Found"})</h1>
                         </div>
                         <div>
                             <h2 class="text-[24px] font-semibold mt-5">Meaning</h2>
-                            <p class="font-bangla text-[24px] font-medium mt-3">${word.meaning}</p>
+                            <p class="font-bangla text-[22px] font-medium mt-3">${word.meaning ? word.meaning : "Not Found"}</p>
                         </div>
                         <div>
                             <h2 class="text-[24px] font-semibold mt-10">Example</h1>
-                                <p class="text-[24px] mt-2">${word.sentence}</p>
+                                <p class="text-[16px] mt-2">${word.sentence ? word.sentence : "Not Found"}</p>
                         </div>
                         <div class="mt-5">
                             <h2 class="font-bangla text-[24px] font-medium">সমার্থক শব্দ গুলো</h2>
@@ -120,7 +106,7 @@ const displayLevelWords = (words) => {
                     <p class="font-bangla font-semibold text-[32px] text-[#18181B] mt-5">"${word.meaning ? word.meaning : "অর্থো পাওয়া যায়নি"} / ${word.pronunciation ? word.pronunciation : "উচ্চারণ পাওয়া যায়নি"}"</p>
                     <div class="flex justify-between items-center mt-5">
                         <button onclick="loadWordDetail(${word.id})" class="btn bg-[#1a91ff1a] hover:bg-[#1A91FF80]"><i class="fa-solid fa-circle-info"></i></button>
-                        <button class="btn bg-[#1a91ff1a] hover:bg-[#1A91FF80]"><i class="fa-solid fa-volume"></i></button>
+                        <button onclick="pronounceWord('${word.word}')" class="btn bg-[#1a91ff1a] hover:bg-[#1A91FF80]"><i class="fa-solid fa-volume"></i></button>
                     </div>
                 </div>
         `
@@ -150,3 +136,19 @@ const displayLesson = (lessons) => {
 
 loadLesson();
 
+document.getElementById("btn-search")
+.addEventListener('click',()=>{
+    removeActive();
+    const input = document.getElementById("input-search");
+    const searchValue = input.value.trim().toLowerCase();
+    console.log(searchValue);
+
+    fetch("https://openapi.programming-hero.com/api/words/all")
+    .then((res)=>res.json())
+    .then((data)=>{
+        const allWords = data.data;
+        console.log(allWords);
+        const filterWords = allWords.filter((word)=>word.word.toLowerCase().includes(searchValue));
+        displayLevelWords(filterWords);
+    })
+})
