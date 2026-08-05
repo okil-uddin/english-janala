@@ -140,6 +140,10 @@
 
             </div>
 
+            <div id="spinner" class="flex justify-center items-center py-10 hidden">
+                <span class="loading loading-bars loading-xl"></span>
+            </div>
+
             <div id="word-container"
                 class="bg-[#F8F8F8] mt-10 p-5 w-11/12 mx-auto rounded-xl grid grid-cols-1 lg:grid-cols-3 gap-5">
 
@@ -152,13 +156,11 @@
 
         </section>
 
-        <!-- Open the modal using ID.showModal() method -->
-         
-        <!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
-        <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+        <dialog id="word_modal" class="modal modal-bottom sm:modal-middle">
             <div class="modal-box">
-                <h3 class="text-lg font-bold">Hello!</h3>
-                <p class="py-4">Press ESC key or click the button below to close</p>
+                <div id="details-container">
+                    
+                </div>
                 <div class="modal-action">
                     <form method="dialog">
                         <!-- if there is a button in form, it will close the modal -->

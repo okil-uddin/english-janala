@@ -1,4 +1,18 @@
-// JSON part
+const createElements = (arr) => {
+    const htmlElements = arr.map(el => `<span class="btn bg-[#D7E4EF]">${el}</span>`);
+    return htmlElements.join(" ");
+}
+
+const manageLoading = (status) => {
+    if (status === true) {
+        document.getElementById("spinner").classList.remove("hidden");
+        document.getElementById("word-container").classList.add("hidden");
+    }
+    else {
+       document.getElementById("word-container").classList.remove("hidden");
+        document.getElementById("spinner").classList.add("hidden");
+    }
+}
 
 const loadLesson = () => {
     fetch('https://openapi.programming-hero.com/api/levels/all')
@@ -12,6 +26,7 @@ const removeActive = () => {
 }
 
 const loadLevelWord = (id) => {
+    manageLoading(true);
     const url = `https://openapi.programming-hero.com/api/level/${id}`;
     fetch(url)
         .then(res => res.json())
@@ -23,9 +38,61 @@ const loadLevelWord = (id) => {
         })
 }
 
-// **********************************
+const loadWordDetail = async (id) => {
+    const url = `https://openapi.programming-hero.com/api/word/${id}`;
+    const res = await fetch(url);
+    const details = await res.json();
+    displayWordDetails(details.data);
+}
 
-// Function part
+// {
+// "status": true,
+// "message": "successfully fetched a word details",
+// "data": {
+// "word": "Zephyr",
+// "meaning": "মৃদু বাতাস / হালকা হাওয়া",
+// "pronunciation": "জেফার",
+// "level": 5,
+// "sentence": "A gentle zephyr made the leaves rustle.",
+// "points": 5,
+// "partsOfSpeech": "noun",
+// "synonyms": [
+// "breeze",
+// "wind",
+// "gust"
+// ],
+// "id": 50
+// }
+// }
+
+const displayWordDetails = (word) => {
+    const detailsBox = document.getElementById("details-container");
+    detailsBox.innerHTML = ` 
+    <div>
+                        <div>
+                            <h1 class="text-[28px] font-semibold">${word.word}(<i
+                                    class="fa-solid fa-microphone-lines"></i>:${word.pronunciation})</h1>
+                        </div>
+                        <div>
+                            <h2 class="text-[24px] font-semibold mt-5">Meaning</h2>
+                            <p class="font-bangla text-[24px] font-medium mt-3">${word.meaning}</p>
+                        </div>
+                        <div>
+                            <h2 class="text-[24px] font-semibold mt-10">Example</h1>
+                                <p class="text-[24px] mt-2">${word.sentence}</p>
+                        </div>
+                        <div class="mt-5">
+                            <h2 class="font-bangla text-[24px] font-medium">সমার্থক শব্দ গুলো</h2>
+                            <div class=" flex flex-wrap gap-2 mt-3">${createElements(word.synonyms)}</div>
+                        </div>
+
+                    </div>
+
+    
+    `;
+    document.getElementById("word_modal").showModal();
+}
+
 const displayLevelWords = (words) => {
 
     const wordContainer = document.getElementById("word-container");
@@ -39,6 +106,7 @@ const displayLevelWords = (words) => {
                    <h2 class="text-[34px] mt-3 font-bangla font-medium">নেক্সট Lesson এ যান</h2>
                 </div>
         `;
+        manageLoading(false);
         return;
     }
 
@@ -51,13 +119,14 @@ const displayLevelWords = (words) => {
                     <p class="text-[20px] mt-3">Meaning /Pronounciation</p>
                     <p class="font-bangla font-semibold text-[32px] text-[#18181B] mt-5">"${word.meaning ? word.meaning : "অর্থো পাওয়া যায়নি"} / ${word.pronunciation ? word.pronunciation : "উচ্চারণ পাওয়া যায়নি"}"</p>
                     <div class="flex justify-between items-center mt-5">
-                        <button onclick="my_modal_5.showModal()" class="btn bg-[#1a91ff1a] hover:bg-[#1A91FF80]"><i class="fa-solid fa-circle-info"></i></button>
+                        <button onclick="loadWordDetail(${word.id})" class="btn bg-[#1a91ff1a] hover:bg-[#1A91FF80]"><i class="fa-solid fa-circle-info"></i></button>
                         <button class="btn bg-[#1a91ff1a] hover:bg-[#1A91FF80]"><i class="fa-solid fa-volume"></i></button>
                     </div>
                 </div>
         `
         wordContainer.append(card);
     });
+    manageLoading(false);
 }
 
 const displayLesson = (lessons) => {
