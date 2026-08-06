@@ -4,9 +4,9 @@ const createElements = (arr) => {
 }
 
 function pronounceWord(word) {
-  const utterance = new SpeechSynthesisUtterance(word);
-  utterance.lang = "en-EN"; // English
-  window.speechSynthesis.speak(utterance);
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "en-EN"; // English
+    window.speechSynthesis.speak(utterance);
 }
 
 const manageLoading = (status) => {
@@ -61,7 +61,7 @@ const loadWordDetail = async (id) => {
     const res = await fetch(url);
 
     const details = await res.json();
-    
+
     displayWordDetails(details.data);
 }
 
@@ -104,7 +104,7 @@ const displayLevelWords = (words) => {
     wordContainer.innerHTML = "";
 
     if (words.length === 0) {
-        
+
         wordContainer.innerHTML = `
         <div class="text-center col-span-full">
 
@@ -171,24 +171,67 @@ const displayLesson = (lessons) => {
 loadLesson();
 
 document.getElementById("btn-search")
-.addEventListener('click',()=>{
+    .addEventListener('click', () => {
 
-    removeActive();
+        removeActive();
 
-    const input = document.getElementById("input-search");
+        const input = document.getElementById("input-search");
 
-    const searchValue = input.value.trim().toLowerCase();
+        const searchValue = input.value.trim().toLowerCase();
 
-    fetch("https://openapi.programming-hero.com/api/words/all")
-    .then((res)=>res.json())
-    .then((data)=>{
+        fetch("https://openapi.programming-hero.com/api/words/all")
+            .then((res) => res.json())
+            .then((data) => {
 
-        const allWords = data.data;
+                const allWords = data.data;
 
-        const filterWords = allWords.filter((word)=>word.word.toLowerCase().includes(searchValue));
+                const filterWords = allWords.filter((word) => word.word.toLowerCase().includes(searchValue));
 
-        displayLevelWords(filterWords);
+                displayLevelWords(filterWords);
+
+            })
 
     })
-    
-})
+
+
+const faqBtn = document.getElementById("faq-button");
+const faqBtnMobile = document.getElementById("faq-button-mobile");
+const learnBtn = document.getElementById("learn-button");
+const learnBtnMobile = document.getElementById("learn-button-mobile");
+
+faqBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.getElementById("faq-section").scrollIntoView({
+        behavior: "smooth"
+    });
+});
+
+faqBtnMobile.addEventListener("click", (e) => {
+    e.preventDefault();
+    console.log("hyr")
+    document.getElementById("faq-section").scrollIntoView({
+        behavior: "smooth"
+    });
+});
+
+learnBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.getElementById("learn-section").scrollIntoView({
+        behavior: "smooth"
+    });
+});
+
+learnBtnMobile.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.getElementById("learn-section").scrollIntoView({
+        behavior: "smooth"
+    });
+});
+
+const getStartButton = document.getElementById("get-start-btn");
+getStartButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.getElementById("learn-section").scrollIntoView({
+        behavior: "smooth"
+    });
+});
