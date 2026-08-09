@@ -214,6 +214,7 @@ faqBtnMobile.addEventListener("click", (e) => {
     });
 });
 
+
 learnBtn.addEventListener("click", (e) => {
     e.preventDefault();
     document.getElementById("learn-section").scrollIntoView({
@@ -221,12 +222,14 @@ learnBtn.addEventListener("click", (e) => {
     });
 });
 
+
 learnBtnMobile.addEventListener("click", (e) => {
     e.preventDefault();
     document.getElementById("learn-section").scrollIntoView({
         behavior: "smooth"
     });
 });
+
 
 const getStartButton = document.getElementById("get-start-btn");
 getStartButton.addEventListener("click", (e) => {
